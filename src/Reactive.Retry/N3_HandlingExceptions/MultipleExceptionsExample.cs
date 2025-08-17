@@ -21,7 +21,6 @@ public class MultipleExceptionsExample
                 ShouldHandle = args => ValueTask.FromResult(
                     args.Outcome.Exception != null
                     && retryableExceptions.Contains(args.Outcome.Exception.GetType())),
-                MaxRetryAttempts = 2,
                 OnRetry = args =>
                 {
                     Console.WriteLine(
@@ -32,8 +31,9 @@ public class MultipleExceptionsExample
             .Build();
 
 
-        await Task.WhenAll(retryableExceptions.Select(async exceptionType =>
+        foreach (var exceptionType in retryableExceptions)
         {
+            Console.WriteLine($"Attempting operation in retry policy with {exceptionType.Name} handling");
             await Executor.ExecuteAsync(async () =>
                 {
                     var exception = (Exception)Activator.CreateInstance(exceptionType)!;
@@ -41,6 +41,6 @@ public class MultipleExceptionsExample
                 },
                 $"{exceptionType.Name} was retried"
             );
-        }));
+        }
     }
 }

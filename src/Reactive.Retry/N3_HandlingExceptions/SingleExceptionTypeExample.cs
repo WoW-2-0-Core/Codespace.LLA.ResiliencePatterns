@@ -11,7 +11,6 @@ public class SingleExceptionTypeExample
             .AddRetry(new RetryStrategyOptions
             {
                 ShouldHandle = new PredicateBuilder().Handle<HttpRequestException>(),
-                MaxRetryAttempts = 2,
                 OnRetry = args =>
                 {
                     Console.WriteLine($"Attempting retry #{args.AttemptNumber} with single exception handling");

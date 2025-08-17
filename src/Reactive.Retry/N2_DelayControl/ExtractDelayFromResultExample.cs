@@ -34,10 +34,6 @@ public static class ExtractDelayFromResultExample
         var response = new HttpResponseMessage(HttpStatusCode.TooManyRequests);
         response.Headers.RetryAfter = new RetryConditionHeaderValue(TimeSpan.FromSeconds(3));
 
-        await policy.ExecuteAsync(_ =>
-        {
-            Console.WriteLine("Attempting operation in retry policy with delay from result");
-            return ValueTask.FromResult(response);
-        });
+        await policy.ExecuteAsync(_ => ValueTask.FromResult(response));
     }
 }

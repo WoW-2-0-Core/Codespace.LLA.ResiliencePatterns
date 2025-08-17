@@ -11,7 +11,6 @@ public static class MaxDelayLimitingExample
             .AddRetry(new RetryStrategyOptions
             {
                 BackoffType = DelayBackoffType.Exponential,
-                MaxRetryAttempts = 3,
                 Delay = TimeSpan.FromMilliseconds(100),
                 MaxDelay = TimeSpan.FromSeconds(2),
                 OnRetry = args =>
@@ -22,10 +21,6 @@ public static class MaxDelayLimitingExample
             })
             .Build();
 
-        await policy.ExecuteAsync(_ =>
-        {
-            Console.WriteLine("Attempting operation in exponential retry policy with max delay");
-            throw new InvalidOperationException();
-        });
+        await policy.ExecuteAsync(_ => throw new InvalidOperationException());
     }
 }

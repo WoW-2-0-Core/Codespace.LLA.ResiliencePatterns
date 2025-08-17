@@ -20,10 +20,6 @@ public static class ConstantDelayExample
                 }
             }).Build();
 
-        await policy.ExecuteAsync(_ =>
-        {
-            Console.WriteLine("Attempting operation in constant retry policy");
-            throw new InvalidOperationException();
-        });
+        await policy.ExecuteAsync(_ => throw new InvalidOperationException());
     }
 }

@@ -33,19 +33,12 @@ public class ContextBasedLogicExample
 
         var criticalContext = ResilienceContextPool.Shared.Get();
         criticalContext.Properties.Set(OperationTypeKey, OperationTypeCritical);
-        await Executor.ExecuteAsync(async () => await policy.ExecuteAsync(_ =>
-        {
-            Console.WriteLine("Attempting operation in context based retry with critical priority");
-            throw new InvalidOperationException();
-        }));
+        Console.WriteLine("Attempting operation in context based retry with critical priority: ");
+        await Executor.ExecuteAsync(async () => await policy.ExecuteAsync(_ => throw new InvalidOperationException(), criticalContext));
 
         var normalContext = ResilienceContextPool.Shared.Get();
         normalContext.Properties.Set(OperationTypeKey, NormalOperationType);
-
-        await Executor.ExecuteAsync(async () => await policy.ExecuteAsync(_ =>
-        {
-            Console.WriteLine("Attempting operation in context based retry with normal priority");
-            throw new InvalidOperationException();
-        }));
+        Console.WriteLine("Attempting operation in context based retry with normal priority: ");
+        await Executor.ExecuteAsync(async () => await policy.ExecuteAsync(_ => throw new InvalidOperationException(), normalContext));
     }
 }

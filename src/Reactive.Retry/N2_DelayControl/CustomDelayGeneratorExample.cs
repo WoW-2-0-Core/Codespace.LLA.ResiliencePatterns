@@ -32,10 +32,6 @@ public static class CustomDelayGeneratorExample
             })
             .Build();
 
-        await policy.ExecuteAsync(_ =>
-        {
-            Console.WriteLine("Attempting operation in custom delay retry policy");
-            throw new InvalidOperationException();
-        });
+        await policy.ExecuteAsync(_ => throw new InvalidOperationException());
     }
 }

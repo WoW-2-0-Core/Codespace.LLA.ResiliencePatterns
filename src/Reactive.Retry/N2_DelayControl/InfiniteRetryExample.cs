@@ -22,10 +22,6 @@ public static class InfiniteRetryExample
             })
             .Build();
 
-        await policy.ExecuteAsync(_ =>
-        {
-            Console.WriteLine("Attempting operation with infinite retry policy");
-            throw new InvalidOperationException();
-        }, cts.Token);
+        await policy.ExecuteAsync(_ => throw new InvalidOperationException(), cts.Token);
     }
 }

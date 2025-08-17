@@ -35,20 +35,14 @@ public class UrlBasedLogicExample
         var getOrderByIdUrl = $"{CriticalPath}/1";
         var criticalContext = ResilienceContextPool.Shared.Get();
         criticalContext.Properties.Set(UrlKey, getOrderByIdUrl);
-        await Executor.ExecuteAsync(async () => await policy.ExecuteAsync(_ =>
-        {
-            Console.WriteLine("Attempting request in url based retry with critical url");
-            throw new HttpRequestException();
-        }));
+        Console.WriteLine("Attempting request in url based retry with critical url: ");
+        await Executor.ExecuteAsync(async () => await policy.ExecuteAsync(_ => throw new HttpRequestException(), criticalContext));
 
         // Normal request
         var getUserByIdUrl = $"{NormalPath}/2";
         var normalContext = ResilienceContextPool.Shared.Get();
         normalContext.Properties.Set(UrlKey, getUserByIdUrl);
-        await Executor.ExecuteAsync(async () => await policy.ExecuteAsync(_ =>
-        {
-            Console.WriteLine("Attempting request in url based retry with normal url");
-            throw new HttpRequestException();
-        }));
+        Console.WriteLine("Attempting request in url based retry with normal url: ");
+        await Executor.ExecuteAsync(async () => await policy.ExecuteAsync(_ => throw new HttpRequestException(), normalContext));
     }
 }

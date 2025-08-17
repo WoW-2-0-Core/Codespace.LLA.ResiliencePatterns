@@ -11,7 +11,7 @@ public class LinearBackoffExample
             .AddRetry(new RetryStrategyOptions
             {
                 BackoffType = DelayBackoffType.Linear,
-                MaxRetryAttempts = 4,
+                MaxRetryAttempts = 3,
                 Delay = TimeSpan.FromMilliseconds(200),
                 OnRetry = args =>
                 {
@@ -21,10 +21,6 @@ public class LinearBackoffExample
             })
             .Build();
 
-        await policy.ExecuteAsync(token =>
-        {
-            Console.WriteLine("Attempting operation in linear retry policy");
-            throw new InvalidOperationException();
-        });
+        await policy.ExecuteAsync(_ => throw new InvalidOperationException());
     }
 }

@@ -22,10 +22,6 @@ public class JitterVariationsExample
             })
             .Build();
 
-        await policy.ExecuteAsync(_ =>
-        {
-            Console.WriteLine("Attempting operation in exponential retry policy with jitter");
-            throw new InvalidOperationException();
-        });
+        await policy.ExecuteAsync(_ => throw new InvalidOperationException());
     }
 }

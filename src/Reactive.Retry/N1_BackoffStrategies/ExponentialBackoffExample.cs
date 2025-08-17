@@ -11,7 +11,7 @@ public class ExponentialBackoffExample
             .AddRetry(new RetryStrategyOptions
             {
                 BackoffType = DelayBackoffType.Exponential,
-                MaxRetryAttempts = 4,
+                MaxRetryAttempts = 3,
                 Delay = TimeSpan.FromMilliseconds(200),
                 OnRetry = args =>
                 {

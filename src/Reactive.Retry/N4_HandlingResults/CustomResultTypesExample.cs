@@ -26,16 +26,11 @@ public class CustomResultTypesExample
             })
             .Build();
 
-        await Executor.ExecuteAsync(async () => await policy.ExecuteAsync(_ =>
-        {
-            Console.WriteLine("Attempting operation in custom result retry policy with 503 status");
-            return ValueTask.FromResult(new ApiResult(false, "Service Unavailable", 503));
-        }));
+        Console.WriteLine("Attempting operation in custom result retry policy with 503 status: ");
+        await Executor.ExecuteAsync(async () =>
+            await policy.ExecuteAsync(_ => ValueTask.FromResult(new ApiResult(false, "Service Unavailable", 503))));
 
-        await Executor.ExecuteAsync(async () => await policy.ExecuteAsync(_ =>
-        {
-            Console.WriteLine("Attempting operation in custom result retry policy with 200 status");
-            return ValueTask.FromResult(new ApiResult(true, "OK", 200));
-        }));
+        Console.WriteLine("Attempting operation in custom result retry policy with 200 status: ");
+        await Executor.ExecuteAsync(async () => await policy.ExecuteAsync(_ => ValueTask.FromResult(new ApiResult(true, "OK", 200))));
     }
 }
