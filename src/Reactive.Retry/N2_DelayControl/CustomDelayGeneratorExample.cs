@@ -7,7 +7,7 @@ public static class CustomDelayGeneratorExample
 {
     public static async ValueTask RunExampleAsync()
     {
-        var policy = new ResiliencePipelineBuilder()
+        var pipeline = new ResiliencePipelineBuilder()
             .AddRetry(new RetryStrategyOptions
             {
                 MaxRetryAttempts = 3,
@@ -32,6 +32,6 @@ public static class CustomDelayGeneratorExample
             })
             .Build();
 
-        await policy.ExecuteAsync(_ => throw new InvalidOperationException());
+        await pipeline.ExecuteAsync(_ => throw new InvalidOperationException());
     }
 }

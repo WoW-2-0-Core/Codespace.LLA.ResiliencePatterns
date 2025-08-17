@@ -9,7 +9,7 @@ public static class InfiniteRetryExample
     {
         var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
 
-        var policy = new ResiliencePipelineBuilder()
+        var pipeline = new ResiliencePipelineBuilder()
             .AddRetry(new RetryStrategyOptions
             {
                 MaxRetryAttempts = int.MaxValue,
@@ -22,6 +22,6 @@ public static class InfiniteRetryExample
             })
             .Build();
 
-        await policy.ExecuteAsync(_ => throw new InvalidOperationException(), cts.Token);
+        await pipeline.ExecuteAsync(_ => throw new InvalidOperationException(), cts.Token);
     }
 }

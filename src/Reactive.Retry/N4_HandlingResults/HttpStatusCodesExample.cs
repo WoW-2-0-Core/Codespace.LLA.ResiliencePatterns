@@ -4,11 +4,11 @@ using Polly.Retry;
 
 namespace Reactive.Retry.N4_HandlingResults;
 
-public class HttpStatusCodesExample
+public static class HttpStatusCodesExample
 {
     public static async ValueTask RunExampleAsync()
     {
-        var policy = new ResiliencePipelineBuilder<HttpResponseMessage>()
+        var pipeline = new ResiliencePipelineBuilder<HttpResponseMessage>()
             .AddRetry(new RetryStrategyOptions<HttpResponseMessage>
             {
                 ShouldHandle = args => ValueTask.FromResult(
@@ -23,9 +23,9 @@ public class HttpStatusCodesExample
             .Build();
 
         Console.WriteLine("Attempting operation in retry policy with status code handling with 503 result: ");
-        await Executor.ExecuteAsync(async () => await policy.ExecuteAsync(_ => new ValueTask<HttpResponseMessage>(new HttpResponseMessage(HttpStatusCode.ServiceUnavailable))));
+        await Executor.ExecuteAsync(async () => await pipeline.ExecuteAsync(_ => new ValueTask<HttpResponseMessage>(new HttpResponseMessage(HttpStatusCode.ServiceUnavailable))));
 
         Console.WriteLine("Attempting operation in retry policy with status code handling with 200 result: ");
-        await Executor.ExecuteAsync(async () => await policy.ExecuteAsync(_ => new ValueTask<HttpResponseMessage>(new HttpResponseMessage(HttpStatusCode.OK))));
+        await Executor.ExecuteAsync(async () => await pipeline.ExecuteAsync(_ => new ValueTask<HttpResponseMessage>(new HttpResponseMessage(HttpStatusCode.OK))));
     }
 }

@@ -7,7 +7,7 @@ public class LinearBackoffExample
 {
     public static async ValueTask RunExampleAsync()
     {
-        var policy = new ResiliencePipelineBuilder()
+        var pipeline = new ResiliencePipelineBuilder()
             .AddRetry(new RetryStrategyOptions
             {
                 BackoffType = DelayBackoffType.Linear,
@@ -21,6 +21,6 @@ public class LinearBackoffExample
             })
             .Build();
 
-        await policy.ExecuteAsync(_ => throw new InvalidOperationException());
+        await pipeline.ExecuteAsync(_ => throw new InvalidOperationException());
     }
 }

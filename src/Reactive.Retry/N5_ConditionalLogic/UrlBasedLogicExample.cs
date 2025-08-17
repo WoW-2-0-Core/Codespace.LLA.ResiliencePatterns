@@ -11,7 +11,7 @@ public class UrlBasedLogicExample
 
     public static async ValueTask RunExampleAsync()
     {
-        var policy = new ResiliencePipelineBuilder()
+        var pipeline = new ResiliencePipelineBuilder()
             .AddRetry(new RetryStrategyOptions
             {
                 ShouldHandle = args =>
@@ -36,13 +36,13 @@ public class UrlBasedLogicExample
         var criticalContext = ResilienceContextPool.Shared.Get();
         criticalContext.Properties.Set(UrlKey, getOrderByIdUrl);
         Console.WriteLine("Attempting request in url based retry with critical url: ");
-        await Executor.ExecuteAsync(async () => await policy.ExecuteAsync(_ => throw new HttpRequestException(), criticalContext));
+        await Executor.ExecuteAsync(async () => await pipeline.ExecuteAsync(_ => throw new HttpRequestException(), criticalContext));
 
         // Normal request
         var getUserByIdUrl = $"{NormalPath}/2";
         var normalContext = ResilienceContextPool.Shared.Get();
         normalContext.Properties.Set(UrlKey, getUserByIdUrl);
         Console.WriteLine("Attempting request in url based retry with normal url: ");
-        await Executor.ExecuteAsync(async () => await policy.ExecuteAsync(_ => throw new HttpRequestException(), normalContext));
+        await Executor.ExecuteAsync(async () => await pipeline.ExecuteAsync(_ => throw new HttpRequestException(), normalContext));
     }
 }

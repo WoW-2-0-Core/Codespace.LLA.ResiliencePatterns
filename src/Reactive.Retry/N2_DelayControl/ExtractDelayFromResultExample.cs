@@ -9,7 +9,7 @@ public static class ExtractDelayFromResultExample
 {
     public static async ValueTask RunExampleAsync()
     {
-        var policy = new ResiliencePipelineBuilder<HttpResponseMessage>()
+        var pipeline = new ResiliencePipelineBuilder<HttpResponseMessage>()
             .AddRetry(new RetryStrategyOptions<HttpResponseMessage>
             {
                 DelayGenerator = args =>
@@ -34,6 +34,6 @@ public static class ExtractDelayFromResultExample
         var response = new HttpResponseMessage(HttpStatusCode.TooManyRequests);
         response.Headers.RetryAfter = new RetryConditionHeaderValue(TimeSpan.FromSeconds(3));
 
-        await policy.ExecuteAsync(_ => ValueTask.FromResult(response));
+        await pipeline.ExecuteAsync(_ => ValueTask.FromResult(response));
     }
 }

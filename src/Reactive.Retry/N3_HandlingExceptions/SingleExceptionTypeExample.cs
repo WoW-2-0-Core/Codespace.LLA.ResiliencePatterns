@@ -3,11 +3,11 @@ using Polly.Retry;
 
 namespace Reactive.Retry.N3_HandlingExceptions;
 
-public class SingleExceptionTypeExample
+public static class SingleExceptionTypeExample
 {
     public static async ValueTask RunExampleAsync()
     {
-        var policy = new ResiliencePipelineBuilder()
+        var pipeline = new ResiliencePipelineBuilder()
             .AddRetry(new RetryStrategyOptions
             {
                 ShouldHandle = new PredicateBuilder().Handle<HttpRequestException>(),
@@ -20,11 +20,11 @@ public class SingleExceptionTypeExample
             .Build();
 
         await Executor.ExecuteAsync(
-            async () => await policy.ExecuteAsync(_ => throw new HttpRequestException()),
+            async () => await pipeline.ExecuteAsync(_ => throw new HttpRequestException()),
             "HttpRequestException retried and failed");
 
         await Executor.ExecuteAsync(
-            async () => await policy.ExecuteAsync(_ => throw new ArgumentException("Invalid argument")),
+            async () => await pipeline.ExecuteAsync(_ => throw new ArgumentException("Invalid argument")),
             "ArgumentException not retried");
     }
 }

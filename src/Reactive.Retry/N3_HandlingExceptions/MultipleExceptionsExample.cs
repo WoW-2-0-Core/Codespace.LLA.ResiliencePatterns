@@ -4,7 +4,7 @@ using Polly.Retry;
 
 namespace Reactive.Retry.N3_HandlingExceptions;
 
-public class MultipleExceptionsExample
+public static class MultipleExceptionsExample
 {
     public static async ValueTask RunExampleAsync()
     {
@@ -15,7 +15,7 @@ public class MultipleExceptionsExample
             typeof(TimeoutException)
         };
 
-        var policy = new ResiliencePipelineBuilder()
+        var pipeline = new ResiliencePipelineBuilder()
             .AddRetry(new RetryStrategyOptions
             {
                 ShouldHandle = args => ValueTask.FromResult(
@@ -37,7 +37,7 @@ public class MultipleExceptionsExample
             await Executor.ExecuteAsync(async () =>
                 {
                     var exception = (Exception)Activator.CreateInstance(exceptionType)!;
-                    await policy.ExecuteAsync(_ => throw exception);
+                    await pipeline.ExecuteAsync(_ => throw exception);
                 },
                 $"{exceptionType.Name} was retried"
             );

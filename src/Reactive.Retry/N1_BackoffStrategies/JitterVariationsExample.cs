@@ -7,7 +7,7 @@ public class JitterVariationsExample
 {
     public static async ValueTask RunExampleAsync()
     {
-        var policy = new ResiliencePipelineBuilder()
+        var pipeline = new ResiliencePipelineBuilder()
             .AddRetry(new RetryStrategyOptions
             {
                 BackoffType = DelayBackoffType.Exponential,
@@ -22,6 +22,6 @@ public class JitterVariationsExample
             })
             .Build();
 
-        await policy.ExecuteAsync(_ => throw new InvalidOperationException());
+        await pipeline.ExecuteAsync(_ => throw new InvalidOperationException());
     }
 }

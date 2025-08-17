@@ -3,11 +3,11 @@ using Polly.Retry;
 
 namespace Reactive.Retry.N3_HandlingExceptions;
 
-public class ExceptionsExclusivePatternsExample
+public static class ExceptionsExclusivePatternsExample
 {
     public static async ValueTask RunExampleAsync()
     {
-        var policy = new ResiliencePipelineBuilder()
+        var pipeline = new ResiliencePipelineBuilder()
             .AddRetry(new RetryStrategyOptions
             {
                 ShouldHandle = args => ValueTask.FromResult(
@@ -26,12 +26,12 @@ public class ExceptionsExclusivePatternsExample
             .Build();
 
         await Executor.ExecuteAsync(
-            async () => await policy.ExecuteAsync(_ => throw new ArgumentException()),
+            async () => await pipeline.ExecuteAsync(_ => throw new ArgumentException()),
             "InvalidOperationException retried"
         );
 
         await Executor.ExecuteAsync(
-            async () => await policy.ExecuteAsync(_ => throw new OperationCanceledException()),
+            async () => await pipeline.ExecuteAsync(_ => throw new OperationCanceledException()),
             "OperationCanceledException not retried"
         );
     }

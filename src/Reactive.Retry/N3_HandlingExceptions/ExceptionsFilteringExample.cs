@@ -4,11 +4,11 @@ using Polly.Retry;
 
 namespace Reactive.Retry.N3_HandlingExceptions;
 
-public class ExceptionsFilteringExample
+public static class ExceptionsFilteringExample
 {
     public static async ValueTask RunExampleAsync()
     {
-        var policy = new ResiliencePipelineBuilder()
+        var pipeline = new ResiliencePipelineBuilder()
             .AddRetry(new RetryStrategyOptions
             {
                 ShouldHandle = args =>
@@ -33,13 +33,13 @@ public class ExceptionsFilteringExample
             .Build();
 
         await Executor.ExecuteAsync(
-            async () => await policy
+            async () => await pipeline
                 .ExecuteAsync(_ => throw new HttpRequestException("Internal server error", null, HttpStatusCode.InternalServerError)),
             "500 error retried"
         );
 
         await Executor.ExecuteAsync(
-            async () => await policy
+            async () => await pipeline
                 .ExecuteAsync(_ => throw new HttpRequestException("Too many requests", null, HttpStatusCode.TooManyRequests)),
             "429 error not retried"
         );
