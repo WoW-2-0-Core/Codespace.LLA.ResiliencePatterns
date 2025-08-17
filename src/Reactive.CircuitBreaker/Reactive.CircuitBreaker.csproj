@@ -7,12 +7,4 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <ItemGroup>
-      <PackageReference Include="Polly" Version="8.6.2" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="N6_MonitoringTelemetry\" />
-    </ItemGroup>
-
 </Project>
