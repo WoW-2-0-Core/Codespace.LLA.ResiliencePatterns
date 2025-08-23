@@ -12,6 +12,8 @@ public class ContextBasedLogicExample
 
     public static async ValueTask RunExampleAsync()
     {
+        Console.WriteLine("\n\n----------  Context based logic example  ----------");
+        
         var pipeline = new ResiliencePipelineBuilder()
             .AddRetry(new RetryStrategyOptions
             {
@@ -21,7 +23,6 @@ public class ContextBasedLogicExample
                                      operationType == OperationTypeCritical;
                     return ValueTask.FromResult(isCritical);
                 },
-                MaxRetryAttempts = 3,
                 OnRetry = args =>
                 {
                     Console.WriteLine(
@@ -35,10 +36,12 @@ public class ContextBasedLogicExample
         criticalContext.Properties.Set(OperationTypeKey, OperationTypeCritical);
         Console.WriteLine("Attempting operation in context based retry with critical priority: ");
         await Executor.ExecuteAsync(async () => await pipeline.ExecuteAsync(_ => throw new InvalidOperationException(), criticalContext));
+        ResilienceContextPool.Shared.Return(criticalContext);
 
         var normalContext = ResilienceContextPool.Shared.Get();
         normalContext.Properties.Set(OperationTypeKey, NormalOperationType);
-        Console.WriteLine("Attempting operation in context based retry with normal priority: ");
+        Console.WriteLine("\nAttempting operation in context based retry with normal priority: ");
         await Executor.ExecuteAsync(async () => await pipeline.ExecuteAsync(_ => throw new InvalidOperationException(), normalContext));
+        ResilienceContextPool.Shared.Return(normalContext);
     }
 }

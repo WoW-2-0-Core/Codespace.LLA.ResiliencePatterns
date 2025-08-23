@@ -8,6 +8,8 @@ public static class MultipleExceptionsExample
 {
     public static async ValueTask RunExampleAsync()
     {
+        Console.WriteLine("\n\n----------  Multiple exceptions example  ----------");
+        
         var retryableExceptions = new []
         {
             typeof(HttpRequestException),

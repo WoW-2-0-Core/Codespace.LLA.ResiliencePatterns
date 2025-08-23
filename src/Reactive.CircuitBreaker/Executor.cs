@@ -1,25 +1,36 @@
 using Polly;
+using Polly.CircuitBreaker;
 
-namespace PollyTelemetry;
+namespace Reactive.CircuitBreaker;
 
 public static class Executor
 {
-    public static async ValueTask ExecuteAsync(Func<ValueTask> action, string? message = null, bool addNewLine = false)
+    public static async ValueTask ExecuteAsync(
+        Func<ValueTask> action,
+        string? successMsg = null,
+        string? failureMsg = null,
+        bool addNewLine = false)
     {
         try
         {
             await action();
+
+            if (successMsg is not null)
+                Console.WriteLine(successMsg);
         }
-        catch
+        catch (Exception ex)
         {
-            if (message is not null)
-                Console.WriteLine(message);
+            if (ex is BrokenCircuitException)
+                Console.Write(" - ❌ blocked");
+
+            if (failureMsg is not null)
+                Console.WriteLine(failureMsg);
         }
 
         if (addNewLine)
             Console.WriteLine();
     }
-    
+
     public static async Task ExecutePipelineAsync(
         ResiliencePipeline pipeline,
         ICollection<bool> outcomes,

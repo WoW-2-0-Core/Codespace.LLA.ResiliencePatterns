@@ -7,6 +7,8 @@ public class LinearBackoffExample
 {
     public static async ValueTask RunExampleAsync()
     {
+        Console.WriteLine("\n\n----------  Linear backoff example  ----------");
+        
         var pipeline = new ResiliencePipelineBuilder()
             .AddRetry(new RetryStrategyOptions
             {

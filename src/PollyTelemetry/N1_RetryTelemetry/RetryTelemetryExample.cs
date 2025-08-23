@@ -33,7 +33,7 @@ public static class RetryTelemetryExample
             .ConfigureTelemetry(telemetryOptions)
             .Build();
 
-        Console.WriteLine("Retry Policy Telemetry Example");
+        Console.WriteLine("---- Retry Policy Telemetry Example ----");
 
         Console.WriteLine("\nCase 1: Unhandled Exception (Information Severity)");
         await RunSuccessfulOperationAsync(pipeline);

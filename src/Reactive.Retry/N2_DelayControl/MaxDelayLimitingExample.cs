@@ -11,8 +11,8 @@ public static class MaxDelayLimitingExample
             .AddRetry(new RetryStrategyOptions
             {
                 BackoffType = DelayBackoffType.Exponential,
-                Delay = TimeSpan.FromMilliseconds(100),
-                MaxDelay = TimeSpan.FromSeconds(2),
+                Delay = TimeSpan.FromMilliseconds(200),
+                MaxDelay = TimeSpan.FromMilliseconds(350),
                 OnRetry = args =>
                 {
                     Console.WriteLine($"Attempting exponential retry #{args.AttemptNumber}, retry delay: {args.RetryDelay.TotalMilliseconds}ms with max delay");

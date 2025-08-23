@@ -26,7 +26,7 @@ public static class CustomDelayGeneratorExample
                 OnRetry = args =>
                 {
                     Console.WriteLine(
-                        $"Attempting constant retry #{args.AttemptNumber}, retry delay: {args.RetryDelay.TotalMilliseconds}ms with custom delay generator");
+                        $"Attempting retry #{args.AttemptNumber}, retry delay: {args.RetryDelay.TotalMilliseconds}ms with custom delay generator");
                     return ValueTask.CompletedTask;
                 }
             })

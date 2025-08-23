@@ -7,6 +7,8 @@ public static class ConstantDelayExample
 {
     public static async ValueTask RunExampleAsync()
     {
+        Console.WriteLine("\n\n----------  Constant delay example  ----------");
+        
         var pipeline = new ResiliencePipelineBuilder()
             .AddRetry(new RetryStrategyOptions
             {

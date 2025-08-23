@@ -101,8 +101,6 @@ var options = new RetryStrategyOptions
 - Embed cancellation logic in `OnRetry` callback
 - Retry operations that cause data corruption
 
-## Integration Examples
-
 ### Common Integrations
 - **HttpClient**: See examples in `src/` for typed client patterns
 - **Pipeline composition**: Multiple examples throughout `src/` folders

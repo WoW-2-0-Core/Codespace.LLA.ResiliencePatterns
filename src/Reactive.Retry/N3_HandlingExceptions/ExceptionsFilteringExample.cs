@@ -8,6 +8,8 @@ public static class ExceptionsFilteringExample
 {
     public static async ValueTask RunExampleAsync()
     {
+        Console.WriteLine("\n\n----------  Exceptions filtering example  ----------");
+        
         var pipeline = new ResiliencePipelineBuilder()
             .AddRetry(new RetryStrategyOptions
             {

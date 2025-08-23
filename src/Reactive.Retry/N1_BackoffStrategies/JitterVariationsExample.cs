@@ -7,6 +7,8 @@ public class JitterVariationsExample
 {
     public static async ValueTask RunExampleAsync()
     {
+        Console.WriteLine("\n\n----------  Jitter variations example  ----------");
+        
         var pipeline = new ResiliencePipelineBuilder()
             .AddRetry(new RetryStrategyOptions
             {

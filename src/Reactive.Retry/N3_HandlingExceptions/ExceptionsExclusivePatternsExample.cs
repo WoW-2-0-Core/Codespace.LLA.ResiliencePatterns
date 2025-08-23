@@ -7,6 +7,8 @@ public static class ExceptionsExclusivePatternsExample
 {
     public static async ValueTask RunExampleAsync()
     {
+        Console.WriteLine("\n\n----------  Exceptions exclusive patterns example  ----------");
+        
         var pipeline = new ResiliencePipelineBuilder()
             .AddRetry(new RetryStrategyOptions
             {
@@ -24,7 +26,7 @@ public static class ExceptionsExclusivePatternsExample
                 }
             })
             .Build();
-
+        
         await Executor.ExecuteAsync(
             async () => await pipeline.ExecuteAsync(_ => throw new ArgumentException()),
             "InvalidOperationException retried"

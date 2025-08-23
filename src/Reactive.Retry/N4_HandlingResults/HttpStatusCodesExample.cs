@@ -8,6 +8,8 @@ public static class HttpStatusCodesExample
 {
     public static async ValueTask RunExampleAsync()
     {
+        Console.WriteLine("\n\n----------  HTTP status codes example  ----------");
+        
         var pipeline = new ResiliencePipelineBuilder<HttpResponseMessage>()
             .AddRetry(new RetryStrategyOptions<HttpResponseMessage>
             {

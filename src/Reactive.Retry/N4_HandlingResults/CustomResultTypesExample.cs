@@ -10,6 +10,8 @@ public static class CustomResultTypesExample
 
     public static async ValueTask RunExampleAsync()
     {
+        Console.WriteLine("\n\n----------  Custom result types example  ----------");
+        
         var pipeline = new ResiliencePipelineBuilder<ApiResult>()
             .AddRetry(new RetryStrategyOptions<ApiResult>
             {
